@@ -32,6 +32,7 @@ async function run() {
 
     const database = client.db("EuropeOdysseyDB");
     const spotCollection = database.collection("TouristSpots");
+    const countryCollection = database.collection("Countries");
 
     app.get("/spots", async(req, res) =>{
       const cursor = spotCollection.find({ user_name: "" });
@@ -93,6 +94,12 @@ async function run() {
       const id = req.params.id;
       const query = {_id: new ObjectId(id)};
       const result = await spotCollection.deleteOne(query);
+      res.send(result);
+    })
+
+    app.get("/countries", async(req, res) =>{
+      const cursor = countryCollection.find();
+      const result = await cursor.toArray();
       res.send(result);
     })
 
