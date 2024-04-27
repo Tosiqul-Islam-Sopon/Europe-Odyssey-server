@@ -52,6 +52,13 @@ async function run() {
       res.send(result)
     })
 
+    app.get("/allSpots/:email", async(req, res) =>{
+      const email = req.params.email;
+      const cursor = spotCollection.find({user_email: email});
+      const result = await cursor.toArray();
+      res.send(result);
+    })
+
     app.post("/addSpot", async(req, res)=>{
       const spot = req.body;
       const result = await spotCollection.insertOne(spot);
