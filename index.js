@@ -34,7 +34,7 @@ async function run() {
     const spotCollection = database.collection("TouristSpots");
 
     app.get("/spots", async(req, res) =>{
-      const cursor = spotCollection.find();
+      const cursor = spotCollection.find({ user_name: "" });
       const result = await cursor.toArray();
       res.send(result);
     })
@@ -44,6 +44,12 @@ async function run() {
       const query = {_id: new ObjectId(id)};
       const result = await spotCollection.findOne(query);
       res.send(result);
+    })
+
+    app.get("/allSpots", async(req, res) =>{
+      const cursor = spotCollection.find({ user_name: { $ne: "" } });
+      const result = await cursor.toArray();
+      res.send(result)
     })
 
     app.post("/addSpot", async(req, res)=>{
