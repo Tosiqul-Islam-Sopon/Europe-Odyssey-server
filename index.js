@@ -60,6 +60,13 @@ async function run() {
       res.send(result);
     })
 
+    app.get("/countrySpots/:name", async(req, res) =>{
+      const name = req.params.name;
+      const cursor = spotCollection.find({country_name: name});
+      const result = await cursor.toArray();
+      res.send(result);
+    })
+
     app.post("/addSpot", async(req, res)=>{
       const spot = req.body;
       const result = await spotCollection.insertOne(spot);
