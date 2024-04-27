@@ -65,6 +65,30 @@ async function run() {
       res.send(result);
     })
 
+    app.patch("/updateSpot/:id", async(req, res) =>{
+      const id = req.params.id;
+      const spot = req.body;
+      const query = {_id: new ObjectId(id)};
+      const updatedSpot = {
+        $set : {
+          tourist_spot_name: spot.tourist_spot_name,
+          country_name: spot.country_name,
+          location: spot.location,
+          average_cost: spot.average_cost, 
+          seasonality: spot.seasonality,
+          travel_time: spot.travel_time, 
+          total_visitors_per_year: spot.total_visitors_per_year, 
+          short_description: spot.short_description,
+          image: spot.image, 
+          user_email: spot.user_email, 
+          user_name: spot.user_name
+        }
+      }
+
+      const result = await spotCollection.updateOne(query, updatedSpot);
+      res.send(result);
+    })
+
     app.delete("/spots/:id", async(req, res) =>{
       const id = req.params.id;
       const query = {_id: new ObjectId(id)};
